@@ -1,1258 +1,150 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "a7884756-6631-42c4-b276-22858c24380e",
-   "metadata": {},
-   "source": [
-    "# Acquisition B"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 55,
-   "id": "b2896cd0-86dc-46df-a4fd-39fbc19ba7cf",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import os\n",
-    "\n",
-    "import pandas as pd\n",
-    "\n",
-    "from env import get_connection"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "586b89d6-0380-4332-9939-22419c83da5c",
-   "metadata": {},
-   "source": [
-    "1) Make a function named get_titanic_data that returns the titanic data from the codeup data science database as a pandas data frame. \n",
-    "\n",
-    "Obtain your data from the Codeup Data Science Database."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 96,
-   "id": "d1ecd5f8-1f0a-4618-b24d-071f6af31e5c",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#creating a function; get_titanic_data to return all columns from the passengers table and saving it as a csv file\n",
-    "\n",
-    "def get_titanic_data():\n",
-    "\n",
-    "    filename = 'titanic.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "    \n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else:\n",
-    "\n",
-    "        url = get_connection('titanic_db')\n",
-    "\n",
-    "        query = '''\n",
-    "                SELECT *\n",
-    "                FROM passengers\n",
-    "                '''\n",
-    "\n",
-    "        titanic = pd.read_sql(query, url)\n",
-    "\n",
-    "        titanic.to_csv(filename, index = 0)\n",
-    "\n",
-    "        return titanic"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 97,
-   "id": "cacfdfd3-6f86-49ac-b5b2-1e421a464eeb",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>passenger_id</th>\n",
-       "      <th>survived</th>\n",
-       "      <th>pclass</th>\n",
-       "      <th>sex</th>\n",
-       "      <th>age</th>\n",
-       "      <th>sibsp</th>\n",
-       "      <th>parch</th>\n",
-       "      <th>fare</th>\n",
-       "      <th>embarked</th>\n",
-       "      <th>class</th>\n",
-       "      <th>deck</th>\n",
-       "      <th>embark_town</th>\n",
-       "      <th>alone</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>3</td>\n",
-       "      <td>male</td>\n",
-       "      <td>22.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>7.2500</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>female</td>\n",
-       "      <td>38.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>71.2833</td>\n",
-       "      <td>C</td>\n",
-       "      <td>First</td>\n",
-       "      <td>C</td>\n",
-       "      <td>Cherbourg</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>3</td>\n",
-       "      <td>female</td>\n",
-       "      <td>26.0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>7.9250</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>3</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>female</td>\n",
-       "      <td>35.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>53.1000</td>\n",
-       "      <td>S</td>\n",
-       "      <td>First</td>\n",
-       "      <td>C</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>4</td>\n",
-       "      <td>0</td>\n",
-       "      <td>3</td>\n",
-       "      <td>male</td>\n",
-       "      <td>35.0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>8.0500</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   passenger_id  survived  pclass     sex   age  sibsp  parch     fare  \\\n",
-       "0             0         0       3    male  22.0      1      0   7.2500   \n",
-       "1             1         1       1  female  38.0      1      0  71.2833   \n",
-       "2             2         1       3  female  26.0      0      0   7.9250   \n",
-       "3             3         1       1  female  35.0      1      0  53.1000   \n",
-       "4             4         0       3    male  35.0      0      0   8.0500   \n",
-       "\n",
-       "  embarked  class deck  embark_town  alone  \n",
-       "0        S  Third  NaN  Southampton      0  \n",
-       "1        C  First    C    Cherbourg      0  \n",
-       "2        S  Third  NaN  Southampton      1  \n",
-       "3        S  First    C  Southampton      0  \n",
-       "4        S  Third  NaN  Southampton      1  "
-      ]
-     },
-     "execution_count": 97,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_titanic_data().head()"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "262af417-072a-432b-b2ba-eb535944acf2",
-   "metadata": {},
-   "source": [
-    "2) Make a function named get_iris_data that returns the data from the iris_db on the codeup data science database as a pandas data frame.\n",
-    "\n",
-    "The returned data frame should include the actual name of the species in addition to the species_ids. Obtain your data from the Codeup Data Science Database."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 98,
-   "id": "ed96ada5-6c4f-4c89-b5af-fb6cf141a4e0",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#creating a function; get_iris_data to return all columns from the measurements and species table and saving it as a csv file\n",
-    "\n",
-    "def get_iris_data():\n",
-    "\n",
-    "    filename = 'iris.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "\n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else: \n",
-    "\n",
-    "        url = get_connection('iris_db')\n",
-    "\n",
-    "        query = '''\n",
-    "                SELECT *\n",
-    "                FROM measurements\n",
-    "                LEFT JOIN species ON species.species_id = measurements.species_id\n",
-    "                '''\n",
-    "\n",
-    "        iris = pd.read_sql(query, url)\n",
-    "\n",
-    "        iris.to_csv(filename, index = 0)\n",
-    "\n",
-    "        return iris"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 99,
-   "id": "6b0f782b-dfea-47dd-b5da-f38b91b9b187",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>measurement_id</th>\n",
-       "      <th>sepal_length</th>\n",
-       "      <th>sepal_width</th>\n",
-       "      <th>petal_length</th>\n",
-       "      <th>petal_width</th>\n",
-       "      <th>species_id</th>\n",
-       "      <th>species_id.1</th>\n",
-       "      <th>species_name</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>1</td>\n",
-       "      <td>5.1</td>\n",
-       "      <td>3.5</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>2</td>\n",
-       "      <td>4.9</td>\n",
-       "      <td>3.0</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>3</td>\n",
-       "      <td>4.7</td>\n",
-       "      <td>3.2</td>\n",
-       "      <td>1.3</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>4</td>\n",
-       "      <td>4.6</td>\n",
-       "      <td>3.1</td>\n",
-       "      <td>1.5</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>5</td>\n",
-       "      <td>5.0</td>\n",
-       "      <td>3.6</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   measurement_id  sepal_length  sepal_width  petal_length  petal_width  \\\n",
-       "0               1           5.1          3.5           1.4          0.2   \n",
-       "1               2           4.9          3.0           1.4          0.2   \n",
-       "2               3           4.7          3.2           1.3          0.2   \n",
-       "3               4           4.6          3.1           1.5          0.2   \n",
-       "4               5           5.0          3.6           1.4          0.2   \n",
-       "\n",
-       "   species_id  species_id.1 species_name  \n",
-       "0           1             1       setosa  \n",
-       "1           1             1       setosa  \n",
-       "2           1             1       setosa  \n",
-       "3           1             1       setosa  \n",
-       "4           1             1       setosa  "
-      ]
-     },
-     "execution_count": 99,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_iris_data().head()"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "567bac72-8feb-48fa-adbf-4b1d0a8df1d2",
-   "metadata": {},
-   "source": [
-    "3) Make a function named get_telco_data that returns the data from the telco_churn database in SQL. In your SQL, be sure to join contract_types,\n",
-    "\n",
-    "   internet_service_types, payment_types tables with the customers table, so that the resulting dataframe contains all the contract, payment, and internet service options.\n",
-    "\n",
-    "   Obtain your data from the Codeup Data Science Database."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 100,
-   "id": "8f75358c-2a3a-4db7-93c6-682309bcb4dc",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#creating a function; get_telco_data to return all columns from the customers, contract_types, IST, and payment types table and saving it as a csv file\n",
-    "\n",
-    "def get_telco_data():\n",
-    "\n",
-    "    filename = 'telco.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "\n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else: \n",
-    "\n",
-    "        url = get_connection('telco_churn')\n",
-    "\n",
-    "        query = '''\n",
-    "                SELECT *\n",
-    "                FROM customers\n",
-    "                LEFT JOIN contract_types ON contract_types.contract_type_id = customers.contract_type_id\n",
-    "                LEFT JOIN internet_service_types ON internet_service_types.internet_service_type_id = customers.internet_service_type_id\n",
-    "                LEFT JOIN payment_types ON payment_types.payment_type_id = customers.payment_type_id\n",
-    "                '''\n",
-    "    \n",
-    "        telco = pd.read_sql(query, url)\n",
-    "\n",
-    "        telco.to_csv(filename, index = 0)  \n",
-    "\n",
-    "        return telco"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 101,
-   "id": "8184d3fb-08d5-49b7-8d99-b37053d1432c",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>customer_id</th>\n",
-       "      <th>gender</th>\n",
-       "      <th>senior_citizen</th>\n",
-       "      <th>partner</th>\n",
-       "      <th>dependents</th>\n",
-       "      <th>tenure</th>\n",
-       "      <th>phone_service</th>\n",
-       "      <th>multiple_lines</th>\n",
-       "      <th>internet_service_type_id</th>\n",
-       "      <th>online_security</th>\n",
-       "      <th>...</th>\n",
-       "      <th>payment_type_id</th>\n",
-       "      <th>monthly_charges</th>\n",
-       "      <th>total_charges</th>\n",
-       "      <th>churn</th>\n",
-       "      <th>contract_type_id.1</th>\n",
-       "      <th>contract_type</th>\n",
-       "      <th>internet_service_type_id.1</th>\n",
-       "      <th>internet_service_type</th>\n",
-       "      <th>payment_type_id.1</th>\n",
-       "      <th>payment_type</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>0002-ORFBO</td>\n",
-       "      <td>Female</td>\n",
-       "      <td>0</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>9</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>1</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>65.6</td>\n",
-       "      <td>593.3</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>One year</td>\n",
-       "      <td>1</td>\n",
-       "      <td>DSL</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>0003-MKNFE</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>0</td>\n",
-       "      <td>No</td>\n",
-       "      <td>No</td>\n",
-       "      <td>9</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>59.9</td>\n",
-       "      <td>542.4</td>\n",
-       "      <td>No</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>1</td>\n",
-       "      <td>DSL</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>0004-TLHLJ</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>0</td>\n",
-       "      <td>No</td>\n",
-       "      <td>No</td>\n",
-       "      <td>4</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>1</td>\n",
-       "      <td>73.9</td>\n",
-       "      <td>280.85</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Electronic check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>0011-IGKFF</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>13</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>1</td>\n",
-       "      <td>98.0</td>\n",
-       "      <td>1237.85</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Electronic check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>0013-EXCHZ</td>\n",
-       "      <td>Female</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>3</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>83.9</td>\n",
-       "      <td>267.4</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "<p>5 rows × 27 columns</p>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "  customer_id  gender  senior_citizen partner dependents  tenure  \\\n",
-       "0  0002-ORFBO  Female               0     Yes        Yes       9   \n",
-       "1  0003-MKNFE    Male               0      No         No       9   \n",
-       "2  0004-TLHLJ    Male               0      No         No       4   \n",
-       "3  0011-IGKFF    Male               1     Yes         No      13   \n",
-       "4  0013-EXCHZ  Female               1     Yes         No       3   \n",
-       "\n",
-       "  phone_service multiple_lines  internet_service_type_id online_security  ...  \\\n",
-       "0           Yes             No                         1              No  ...   \n",
-       "1           Yes            Yes                         1              No  ...   \n",
-       "2           Yes             No                         2              No  ...   \n",
-       "3           Yes             No                         2              No  ...   \n",
-       "4           Yes             No                         2              No  ...   \n",
-       "\n",
-       "  payment_type_id monthly_charges total_charges churn contract_type_id.1  \\\n",
-       "0               2            65.6         593.3    No                  2   \n",
-       "1               2            59.9         542.4    No                  1   \n",
-       "2               1            73.9        280.85   Yes                  1   \n",
-       "3               1            98.0       1237.85   Yes                  1   \n",
-       "4               2            83.9         267.4   Yes                  1   \n",
-       "\n",
-       "    contract_type internet_service_type_id.1  internet_service_type  \\\n",
-       "0        One year                          1                    DSL   \n",
-       "1  Month-to-month                          1                    DSL   \n",
-       "2  Month-to-month                          2            Fiber optic   \n",
-       "3  Month-to-month                          2            Fiber optic   \n",
-       "4  Month-to-month                          2            Fiber optic   \n",
-       "\n",
-       "   payment_type_id.1      payment_type  \n",
-       "0                  2      Mailed check  \n",
-       "1                  2      Mailed check  \n",
-       "2                  1  Electronic check  \n",
-       "3                  1  Electronic check  \n",
-       "4                  2      Mailed check  \n",
-       "\n",
-       "[5 rows x 27 columns]"
-      ]
-     },
-     "execution_count": 101,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_telco_data().head()"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "a866ac3d-4e85-42ba-ad9f-162f94d7c4ec",
-   "metadata": {},
-   "source": [
-    "4) Once you've got your get_titanic_data, get_iris_data, and get_telco_data functions written, now it's time to add caching to them.\n",
-    "\n",
-    "To do this, edit the beginning of the function to check for the local filename of telco.csv, titanic.csv, or iris.csv. If they exist, use the .csv file. \n",
-    "\n",
-    "If the file doesn't exist, then produce the SQL and pandas necessary to create a dataframe, then write the dataframe to a .csv file with the appropriate name."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 102,
-   "id": "27a08620-c08a-4d53-9873-e59836145944",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#verifying that the titanic.csv file was created from the previous function.\n",
-    "\n",
-    "def get_titanic_data_2():\n",
-    "\n",
-    "    filename = 'titanic.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "    \n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else:\n",
-    "\n",
-    "        print('file not found')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 103,
-   "id": "36f040e7-a52b-4923-a8b0-e2169c733795",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>passenger_id</th>\n",
-       "      <th>survived</th>\n",
-       "      <th>pclass</th>\n",
-       "      <th>sex</th>\n",
-       "      <th>age</th>\n",
-       "      <th>sibsp</th>\n",
-       "      <th>parch</th>\n",
-       "      <th>fare</th>\n",
-       "      <th>embarked</th>\n",
-       "      <th>class</th>\n",
-       "      <th>deck</th>\n",
-       "      <th>embark_town</th>\n",
-       "      <th>alone</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>3</td>\n",
-       "      <td>male</td>\n",
-       "      <td>22.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>7.2500</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>female</td>\n",
-       "      <td>38.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>71.2833</td>\n",
-       "      <td>C</td>\n",
-       "      <td>First</td>\n",
-       "      <td>C</td>\n",
-       "      <td>Cherbourg</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>3</td>\n",
-       "      <td>female</td>\n",
-       "      <td>26.0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>7.9250</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>3</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>female</td>\n",
-       "      <td>35.0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>53.1000</td>\n",
-       "      <td>S</td>\n",
-       "      <td>First</td>\n",
-       "      <td>C</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>4</td>\n",
-       "      <td>0</td>\n",
-       "      <td>3</td>\n",
-       "      <td>male</td>\n",
-       "      <td>35.0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>8.0500</td>\n",
-       "      <td>S</td>\n",
-       "      <td>Third</td>\n",
-       "      <td>NaN</td>\n",
-       "      <td>Southampton</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   passenger_id  survived  pclass     sex   age  sibsp  parch     fare  \\\n",
-       "0             0         0       3    male  22.0      1      0   7.2500   \n",
-       "1             1         1       1  female  38.0      1      0  71.2833   \n",
-       "2             2         1       3  female  26.0      0      0   7.9250   \n",
-       "3             3         1       1  female  35.0      1      0  53.1000   \n",
-       "4             4         0       3    male  35.0      0      0   8.0500   \n",
-       "\n",
-       "  embarked  class deck  embark_town  alone  \n",
-       "0        S  Third  NaN  Southampton      0  \n",
-       "1        C  First    C    Cherbourg      0  \n",
-       "2        S  Third  NaN  Southampton      1  \n",
-       "3        S  First    C  Southampton      0  \n",
-       "4        S  Third  NaN  Southampton      1  "
-      ]
-     },
-     "execution_count": 103,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_titanic_data_2().head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 104,
-   "id": "f812f1af-ba24-413a-a6ba-58891acf26f1",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#verifying that the iris.csv file was created from the previous function.\n",
-    "\n",
-    "def get_iris_data_2():\n",
-    "\n",
-    "    filename = 'iris.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "\n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else: \n",
-    "\n",
-    "        print('file not found')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 105,
-   "id": "b211dc41-6f0d-40e1-9d6a-a867d5f1e8be",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>measurement_id</th>\n",
-       "      <th>sepal_length</th>\n",
-       "      <th>sepal_width</th>\n",
-       "      <th>petal_length</th>\n",
-       "      <th>petal_width</th>\n",
-       "      <th>species_id</th>\n",
-       "      <th>species_id.1</th>\n",
-       "      <th>species_name</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>1</td>\n",
-       "      <td>5.1</td>\n",
-       "      <td>3.5</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>2</td>\n",
-       "      <td>4.9</td>\n",
-       "      <td>3.0</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>3</td>\n",
-       "      <td>4.7</td>\n",
-       "      <td>3.2</td>\n",
-       "      <td>1.3</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>4</td>\n",
-       "      <td>4.6</td>\n",
-       "      <td>3.1</td>\n",
-       "      <td>1.5</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>5</td>\n",
-       "      <td>5.0</td>\n",
-       "      <td>3.6</td>\n",
-       "      <td>1.4</td>\n",
-       "      <td>0.2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>setosa</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   measurement_id  sepal_length  sepal_width  petal_length  petal_width  \\\n",
-       "0               1           5.1          3.5           1.4          0.2   \n",
-       "1               2           4.9          3.0           1.4          0.2   \n",
-       "2               3           4.7          3.2           1.3          0.2   \n",
-       "3               4           4.6          3.1           1.5          0.2   \n",
-       "4               5           5.0          3.6           1.4          0.2   \n",
-       "\n",
-       "   species_id  species_id.1 species_name  \n",
-       "0           1             1       setosa  \n",
-       "1           1             1       setosa  \n",
-       "2           1             1       setosa  \n",
-       "3           1             1       setosa  \n",
-       "4           1             1       setosa  "
-      ]
-     },
-     "execution_count": 105,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_iris_data_2().head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 106,
-   "id": "264473dc-64ab-4af2-be54-9bc57a9f939f",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "#verifying that the telco.csv file was created from the previous function.\n",
-    "\n",
-    "def get_telco_data_2():\n",
-    "\n",
-    "    filename = 'telco.csv'\n",
-    "\n",
-    "    if os.path.isfile(filename):\n",
-    "\n",
-    "        return pd.read_csv(filename)\n",
-    "\n",
-    "    else: \n",
-    "\n",
-    "        print('file not found')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 107,
-   "id": "4d35aa23-e8dc-44bc-a878-62e0958c8bb6",
-   "metadata": {
-    "scrolled": true
-   },
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>customer_id</th>\n",
-       "      <th>gender</th>\n",
-       "      <th>senior_citizen</th>\n",
-       "      <th>partner</th>\n",
-       "      <th>dependents</th>\n",
-       "      <th>tenure</th>\n",
-       "      <th>phone_service</th>\n",
-       "      <th>multiple_lines</th>\n",
-       "      <th>internet_service_type_id</th>\n",
-       "      <th>online_security</th>\n",
-       "      <th>...</th>\n",
-       "      <th>payment_type_id</th>\n",
-       "      <th>monthly_charges</th>\n",
-       "      <th>total_charges</th>\n",
-       "      <th>churn</th>\n",
-       "      <th>contract_type_id.1</th>\n",
-       "      <th>contract_type</th>\n",
-       "      <th>internet_service_type_id.1</th>\n",
-       "      <th>internet_service_type</th>\n",
-       "      <th>payment_type_id.1</th>\n",
-       "      <th>payment_type</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>0002-ORFBO</td>\n",
-       "      <td>Female</td>\n",
-       "      <td>0</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>9</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>1</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>65.6</td>\n",
-       "      <td>593.3</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>One year</td>\n",
-       "      <td>1</td>\n",
-       "      <td>DSL</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>0003-MKNFE</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>0</td>\n",
-       "      <td>No</td>\n",
-       "      <td>No</td>\n",
-       "      <td>9</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>59.9</td>\n",
-       "      <td>542.4</td>\n",
-       "      <td>No</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>1</td>\n",
-       "      <td>DSL</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>0004-TLHLJ</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>0</td>\n",
-       "      <td>No</td>\n",
-       "      <td>No</td>\n",
-       "      <td>4</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>1</td>\n",
-       "      <td>73.9</td>\n",
-       "      <td>280.85</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Electronic check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>0011-IGKFF</td>\n",
-       "      <td>Male</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>13</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>1</td>\n",
-       "      <td>98.0</td>\n",
-       "      <td>1237.85</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Electronic check</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>0013-EXCHZ</td>\n",
-       "      <td>Female</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>3</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>No</td>\n",
-       "      <td>2</td>\n",
-       "      <td>No</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>83.9</td>\n",
-       "      <td>267.4</td>\n",
-       "      <td>Yes</td>\n",
-       "      <td>1</td>\n",
-       "      <td>Month-to-month</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Fiber optic</td>\n",
-       "      <td>2</td>\n",
-       "      <td>Mailed check</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "<p>5 rows × 27 columns</p>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "  customer_id  gender  senior_citizen partner dependents  tenure  \\\n",
-       "0  0002-ORFBO  Female               0     Yes        Yes       9   \n",
-       "1  0003-MKNFE    Male               0      No         No       9   \n",
-       "2  0004-TLHLJ    Male               0      No         No       4   \n",
-       "3  0011-IGKFF    Male               1     Yes         No      13   \n",
-       "4  0013-EXCHZ  Female               1     Yes         No       3   \n",
-       "\n",
-       "  phone_service multiple_lines  internet_service_type_id online_security  ...  \\\n",
-       "0           Yes             No                         1              No  ...   \n",
-       "1           Yes            Yes                         1              No  ...   \n",
-       "2           Yes             No                         2              No  ...   \n",
-       "3           Yes             No                         2              No  ...   \n",
-       "4           Yes             No                         2              No  ...   \n",
-       "\n",
-       "  payment_type_id monthly_charges total_charges churn contract_type_id.1  \\\n",
-       "0               2            65.6         593.3    No                  2   \n",
-       "1               2            59.9         542.4    No                  1   \n",
-       "2               1            73.9        280.85   Yes                  1   \n",
-       "3               1            98.0       1237.85   Yes                  1   \n",
-       "4               2            83.9         267.4   Yes                  1   \n",
-       "\n",
-       "    contract_type internet_service_type_id.1  internet_service_type  \\\n",
-       "0        One year                          1                    DSL   \n",
-       "1  Month-to-month                          1                    DSL   \n",
-       "2  Month-to-month                          2            Fiber optic   \n",
-       "3  Month-to-month                          2            Fiber optic   \n",
-       "4  Month-to-month                          2            Fiber optic   \n",
-       "\n",
-       "   payment_type_id.1      payment_type  \n",
-       "0                  2      Mailed check  \n",
-       "1                  2      Mailed check  \n",
-       "2                  1  Electronic check  \n",
-       "3                  1  Electronic check  \n",
-       "4                  2      Mailed check  \n",
-       "\n",
-       "[5 rows x 27 columns]"
-      ]
-     },
-     "execution_count": 107,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "get_telco_data_2().head()"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.10.12"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# Acquisition
+
+import os
+
+import pandas as pd
+
+from env import get_connection
+
+#1) Make a function named get_titanic_data that returns the titanic data from the codeup data science database as a pandas data frame. 
+#Obtain your data from the Codeup Data Science Database.
+
+#creating a function; get_titanic_data to return all columns from the passengers table and saving it as a csv file
+def get_titanic_data():
+
+    filename = 'titanic.csv'
+
+    if os.path.isfile(filename):
+    
+        return pd.read_csv(filename)
+
+    else:
+
+        url = get_connection('titanic_db')
+
+        query = '''
+                SELECT *
+                FROM passengers
+                '''
+
+        titanic = pd.read_sql(query, url)
+
+        titanic.to_csv(filename, index = 0)
+
+        return titanic
+
+#2) Make a function named get_iris_data that returns the data from the iris_db on the codeup data science database as a pandas data frame.
+#The returned data frame should include the actual name of the species in addition to the species_ids. Obtain your data from the Codeup Data Science Database.
+
+#creating a function; get_iris_data to return all columns from the measurements and species table and saving it as a csv file
+def get_iris_data():
+
+    filename = 'iris.csv'
+
+    if os.path.isfile(filename):
+
+        return pd.read_csv(filename)
+
+    else: 
+
+        url = get_connection('iris_db')
+
+        query = '''
+                SELECT *
+                FROM measurements
+                LEFT JOIN species ON species.species_id = measurements.species_id
+                '''
+
+        iris = pd.read_sql(query, url)
+
+        iris.to_csv(filename, index = 0)
+
+        return iris
+
+#3) Make a function named get_telco_data that returns the data from the telco_churn database in SQL. In your SQL, be sure to join contract_types,
+#internet_service_types, payment_types tables with the customers table, so that the resulting dataframe contains all the contract, payment, and internet service options.
+#Obtain your data from the Codeup Data Science Database.
+
+#creating a function; get_telco_data to return all columns from the customers, contract_types, IST, and payment types table and saving it as a csv file
+def get_telco_data():
+
+    filename = 'telco.csv'
+
+    if os.path.isfile(filename):
+
+        return pd.read_csv(filename)
+
+    else: 
+
+        url = get_connection('telco_churn')
+
+        query = '''
+                SELECT *
+                FROM customers
+                LEFT JOIN contract_types ON contract_types.contract_type_id = customers.contract_type_id
+                LEFT JOIN internet_service_types ON internet_service_types.internet_service_type_id = customers.internet_service_type_id
+                LEFT JOIN payment_types ON payment_types.payment_type_id = customers.payment_type_id
+                '''
+    
+        telco = pd.read_sql(query, url)
+
+        telco.to_csv(filename, index = 0)  
+
+        return telco
+
+#4) Once you've got your get_titanic_data, get_iris_data, and get_telco_data functions written, now it's time to add caching to them.
+#To do this, edit the beginning of the function to check for the local filename of telco.csv, titanic.csv, or iris.csv. If they exist, use the .csv file. 
+#If the file doesn't exist, then produce the SQL and pandas necessary to create a dataframe, then write the dataframe to a .csv file with the appropriate name.
+
+
+#verifying that the titanic.csv file was created from the previous function.
+def get_titanic_data_2():
+
+    filename = 'titanic.csv'
+
+    if os.path.isfile(filename):
+    
+        return pd.read_csv(filename)
+
+    else:
+
+        print('file not found')
+
+
+#verifying that the iris.csv file was created from the previous function.
+def get_iris_data_2():
+
+    filename = 'iris.csv'
+
+    if os.path.isfile(filename):
+
+        return pd.read_csv(filename)
+
+    else: 
+
+        print('file not found')
+
+
+#verifying that the telco.csv file was created from the previous function.
+def get_telco_data_2():
+
+    filename = 'telco.csv'
+
+    if os.path.isfile(filename):
+
+        return pd.read_csv(filename)
+
+    else: 
+
+        print('file not found')
+
+
+
+
+
+
+
+
+
+
+
