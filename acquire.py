@@ -137,14 +137,3 @@ def get_telco_data_2():
     else: 
 
         print('file not found')
-
-
-
-
-
-
-
-
-
-
-
