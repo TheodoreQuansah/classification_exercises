@@ -27,4 +27,9 @@ def train_val_test(df, strat, seed=42):
     train, val_test = train_test_split(df, train_size=0.7, random_state=seed, stratify=df[strat])
     val, test = train_test_split(val_test, train_size=0.5, random_state=seed, stratify=val_test[strat])
     return train, val, test
-
+    
+def eval_p(p, alpha = 0.05, seed = 42):
+    if p < alpha: 
+        print(f'The result is siginificant! We reject the null hypothesis with a p_value of {round(p, 3)}.')
+    else:
+        print(f'We fail to reject the null hypothesis with a p value of {round(p, 3)}.')
